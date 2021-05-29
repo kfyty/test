@@ -1,9 +1,9 @@
 package com.kfyty.test.config;
 
-import com.kfyty.database.jdbc.autoconfig.MapperAutoConfig;
-import com.kfyty.mvc.annotation.EnableWebMvc;
-import com.kfyty.mvc.autoconfig.TomcatAutoConfig;
-import com.kfyty.support.autoconfig.annotation.EnableAutoConfiguration;
+import com.kfyty.mvc.servlet.DispatcherServlet;
+import com.kfyty.support.autoconfig.InitializingBean;
+import com.kfyty.support.autoconfig.annotation.Autowired;
+import com.kfyty.support.autoconfig.annotation.Configuration;
 
 /**
  * 描述:
@@ -12,7 +12,12 @@ import com.kfyty.support.autoconfig.annotation.EnableAutoConfiguration;
  * @date 2021/5/23 21:41
  * @email kfyty725@hotmail.com
  */
-@EnableWebMvc
-@EnableAutoConfiguration(exclude = {MapperAutoConfig.class, TomcatAutoConfig.class})
-public class WebMvcConfig {
+@Configuration
+public class WebMvcConfig implements InitializingBean {
+    @Autowired
+    private DispatcherServlet dispatcherServlet;
+
+    public void afterPropertiesSet() {
+        dispatcherServlet.setPrefix("/jsp");
+    }
 }

@@ -1,11 +1,20 @@
 package com.kfyty.test.controller;
 
 import com.kfyty.mvc.annotation.Controller;
+import com.kfyty.mvc.annotation.GetMapping;
 import com.kfyty.mvc.annotation.PathVariable;
+import com.kfyty.mvc.annotation.PostMapping;
+import com.kfyty.mvc.annotation.PutMapping;
 import com.kfyty.mvc.annotation.RequestMapping;
 import com.kfyty.mvc.annotation.RequestParam;
 import com.kfyty.mvc.annotation.ResponseBody;
+import com.kfyty.mvc.multipart.MultipartFile;
+import com.kfyty.mvc.request.RequestMethod;
+import com.kfyty.test.dto.DeptDto;
+import com.kfyty.test.dto.UserDto;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,14 +40,44 @@ public class TestController {
     }
 
     @ResponseBody
-    @RequestMapping("map")
+    @RequestMapping(value = "array", requestMethod = RequestMethod.POST)
+    public String[] array(@RequestParam("ids") String[] ids) {
+        return ids;
+    }
+
+    @ResponseBody
+    @PostMapping(value = "list")
+    public List<String> list(@RequestParam("ids") List<String> ids) {
+        return ids;
+    }
+
+    @ResponseBody
+    @GetMapping("map")
     public Map<String, Object> map(Map<String, Object> map) {
         return map;
     }
 
     @ResponseBody
-    @RequestMapping("rest/{name}")
+    @GetMapping("rest/{name}")
     public String rest(@PathVariable("name") String name) {
         return "rest: " + name;
+    }
+
+    @ResponseBody
+    @PutMapping("user")
+    public UserDto userDto(@RequestParam UserDto userDto) {
+        return userDto;
+    }
+
+    @ResponseBody
+    @PostMapping("user-dept")
+    public UserDto userDto(@RequestParam("user") UserDto userDto, @RequestParam("dept") DeptDto deptDto) {
+        userDto.setDeptId(deptDto.getId());
+        return userDto;
+    }
+
+    @PostMapping("upload")
+    public void upload(MultipartFile file) throws Exception {
+        file.transferTo(new File("D:\\temp\\upload-test.file"));
     }
 }

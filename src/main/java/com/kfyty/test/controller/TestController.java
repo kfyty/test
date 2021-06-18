@@ -12,6 +12,7 @@ import com.kfyty.mvc.multipart.MultipartFile;
 import com.kfyty.mvc.request.RequestMethod;
 import com.kfyty.test.dto.DeptDto;
 import com.kfyty.test.dto.UserDto;
+import com.kfyty.test.exception.BusinessException;
 
 import java.io.File;
 import java.util.List;
@@ -79,5 +80,15 @@ public class TestController {
     @PostMapping("upload")
     public void upload(MultipartFile file) throws Exception {
         file.transferTo(new File("D:\\temp\\upload-test.file"));
+    }
+
+    @GetMapping("exception")
+    public void exception() {
+        throw new BusinessException("redirect:/index");
+    }
+
+    @GetMapping("rest-exception")
+    public void restException() throws Exception {
+        throw new Exception("rest-exception");
     }
 }

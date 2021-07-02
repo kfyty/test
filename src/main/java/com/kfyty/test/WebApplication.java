@@ -1,7 +1,6 @@
 package com.kfyty.test;
 
 import com.kfyty.boot.K;
-import com.kfyty.database.jdbc.autoconfig.MapperAutoConfig;
 import com.kfyty.mvc.annotation.EnableWebMvc;
 import com.kfyty.support.autoconfig.annotation.BootApplication;
 
@@ -13,7 +12,7 @@ import com.kfyty.support.autoconfig.annotation.BootApplication;
  * @email kfyty725@hotmail.com
  */
 @EnableWebMvc
-@BootApplication(exclude = MapperAutoConfig.class)
+@BootApplication
 public class WebApplication {
 
     public static void main(String[] args) {

@@ -7,7 +7,7 @@
     </welcome-file-list>
 
     <listener>
-        <listener-class>com.kfyty.boot.web.MvcAutoConfigListener</listener-class>
+        <listener-class>com.kfyty.boot.web.WebMvcAutoConfigListener</listener-class>
     </listener>
 
     <context-param>

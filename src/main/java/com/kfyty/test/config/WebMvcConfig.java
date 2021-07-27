@@ -1,9 +1,7 @@
 package com.kfyty.test.config;
 
 import com.kfyty.mvc.annotation.EnableWebMvc;
-import com.kfyty.mvc.autoconfig.TomcatAutoConfig;
-import com.kfyty.mvc.autoconfig.WebSocketAutoConfig;
-import com.kfyty.support.autoconfig.annotation.EnableAutoConfiguration;
+import com.kfyty.support.autoconfig.annotation.Configuration;
 
 /**
  * 描述:
@@ -13,6 +11,6 @@ import com.kfyty.support.autoconfig.annotation.EnableAutoConfiguration;
  * @email kfyty725@hotmail.com
  */
 @EnableWebMvc
-@EnableAutoConfiguration(exclude = {TomcatAutoConfig.class, WebSocketAutoConfig.class})
+@Configuration
 public class WebMvcConfig {
 }

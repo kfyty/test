@@ -5,6 +5,7 @@ import com.kfyty.mvc.annotation.GetMapping;
 import com.kfyty.mvc.annotation.PathVariable;
 import com.kfyty.mvc.annotation.PostMapping;
 import com.kfyty.mvc.annotation.PutMapping;
+import com.kfyty.mvc.annotation.RequestBody;
 import com.kfyty.mvc.annotation.RequestMapping;
 import com.kfyty.mvc.annotation.RequestParam;
 import com.kfyty.mvc.annotation.ResponseBody;
@@ -36,19 +37,19 @@ public class TestController {
 
     @ResponseBody
     @RequestMapping("hello")
-    public String hello(@RequestParam(value = "name", defaultValue = "world") String name) {
+    public String hello(@RequestParam(defaultValue = "world") String name) {
         return "hello: " + name;
     }
 
     @ResponseBody
     @RequestMapping(value = "array", requestMethod = RequestMethod.POST)
-    public String[] array(@RequestParam("ids") String[] ids) {
+    public String[] array(String[] ids) {
         return ids;
     }
 
     @ResponseBody
     @PostMapping(value = "list")
-    public List<String> list(@RequestParam("ids") List<String> ids) {
+    public List<String> list(@RequestParam List<String> ids) {
         return ids;
     }
 
@@ -60,7 +61,7 @@ public class TestController {
 
     @ResponseBody
     @GetMapping("rest/{name}")
-    public String rest(@PathVariable("name") String name) {
+    public String rest(@PathVariable String name) {
         return "rest: " + name;
     }
 
@@ -71,14 +72,20 @@ public class TestController {
     }
 
     @ResponseBody
+    @PutMapping("user-body")
+    public UserDto userDtoBody(@RequestBody UserDto userDto) {
+        return userDto;
+    }
+
+    @ResponseBody
     @PostMapping("user-dept")
-    public UserDto userDto(@RequestParam("user") UserDto userDto, @RequestParam("dept") DeptDto deptDto) {
+    public UserDto userDto(UserDto userDto, @RequestParam DeptDto deptDto) {
         userDto.setDeptId(deptDto.getId());
         return userDto;
     }
 
     @PostMapping("upload")
-    public void upload(MultipartFile file) throws Exception {
+    public void upload(String fileName, MultipartFile file) throws Exception {
         file.transferTo(new File("D:\\temp\\upload-test.file"));
     }
 

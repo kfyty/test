@@ -11,9 +11,12 @@ import com.kfyty.mvc.annotation.RequestParam;
 import com.kfyty.mvc.annotation.ResponseBody;
 import com.kfyty.mvc.multipart.MultipartFile;
 import com.kfyty.mvc.request.RequestMethod;
+import com.kfyty.support.autoconfig.annotation.Autowired;
 import com.kfyty.test.dto.DeptDto;
 import com.kfyty.test.dto.UserDto;
 import com.kfyty.test.exception.BusinessException;
+import com.kfyty.test.service.TestService;
+import jakarta.validation.constraints.Size;
 
 import java.io.File;
 import java.util.List;
@@ -29,6 +32,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("test")
 public class TestController {
+    @Autowired
+    private TestService service;
 
     @RequestMapping("home")
     public String index() {
@@ -49,7 +54,7 @@ public class TestController {
 
     @ResponseBody
     @PostMapping(value = "list")
-    public List<String> list(@RequestParam List<String> ids) {
+    public List<String> list(@RequestParam @Size(min = 1) List<String> ids) {
         return ids;
     }
 
@@ -68,7 +73,7 @@ public class TestController {
     @ResponseBody
     @PutMapping("user")
     public UserDto userDto(@RequestParam UserDto userDto) {
-        return userDto;
+        return this.service.test(userDto);
     }
 
     @ResponseBody

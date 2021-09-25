@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.kfyty</groupId>
-            <artifactId>kfyty-boot</artifactId>
+            <artifactId>kfyty-mvc</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -30,7 +30,7 @@
 
         <dependency>
             <groupId>com.kfyty</groupId>
-            <artifactId>kfyty-mvc</artifactId>
+            <artifactId>kfyty-boot</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -60,6 +60,18 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>8</source>
+                    <target>8</target>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>

@@ -2,6 +2,7 @@ package com.kfyty.test.config;
 
 import com.kfyty.mvc.annotation.ExceptionHandler;
 import com.kfyty.mvc.annotation.RestControllerAdvice;
+import jakarta.validation.ConstraintViolationException;
 
 /**
  * 描述:
@@ -12,6 +13,11 @@ import com.kfyty.mvc.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class RestGlobalExceptionHandler {
+
+    @ExceptionHandler
+    public String validException(ConstraintViolationException constraintViolationException) {
+        return constraintViolationException.getConstraintViolations().iterator().next().getMessage();
+    }
 
     @ExceptionHandler(Exception.class)
     public String exception(Exception e) {

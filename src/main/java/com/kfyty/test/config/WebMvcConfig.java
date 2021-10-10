@@ -1,8 +1,8 @@
 package com.kfyty.test.config;
 
 import com.kfyty.mvc.servlet.DispatcherServlet;
-import com.kfyty.support.autoconfig.InitializingBean;
-import com.kfyty.support.autoconfig.annotation.Autowired;
+import com.kfyty.support.autoconfig.BeanCustomizer;
+import com.kfyty.support.autoconfig.annotation.Bean;
 import com.kfyty.support.autoconfig.annotation.Configuration;
 
 /**
@@ -13,11 +13,10 @@ import com.kfyty.support.autoconfig.annotation.Configuration;
  * @email kfyty725@hotmail.com
  */
 @Configuration
-public class WebMvcConfig implements InitializingBean {
-    @Autowired
-    private DispatcherServlet dispatcherServlet;
+public class WebMvcConfig {
 
-    public void afterPropertiesSet() {
-        dispatcherServlet.setPrefix("/jsp");
+    @Bean
+    public BeanCustomizer<DispatcherServlet> dispatcherServletBeanCustomizer() {
+        return e -> e.setPrefix("/jsp");
     }
 }

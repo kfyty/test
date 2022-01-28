@@ -2,8 +2,8 @@ package com.kfyty.test;
 
 import com.kfyty.mvc.annotation.Controller;
 import com.kfyty.mvc.annotation.RequestMapping;
-import com.kfyty.mvc.annotation.RequestParam;
-import com.kfyty.mvc.annotation.ResponseBody;
+import com.kfyty.mvc.annotation.bind.RequestParam;
+import com.kfyty.mvc.annotation.bind.ResponseBody;
 
 /**
  * 描述:

@@ -2,13 +2,13 @@ package com.kfyty.test.controller;
 
 import com.kfyty.mvc.annotation.Controller;
 import com.kfyty.mvc.annotation.GetMapping;
-import com.kfyty.mvc.annotation.PathVariable;
 import com.kfyty.mvc.annotation.PostMapping;
 import com.kfyty.mvc.annotation.PutMapping;
-import com.kfyty.mvc.annotation.RequestBody;
 import com.kfyty.mvc.annotation.RequestMapping;
-import com.kfyty.mvc.annotation.RequestParam;
-import com.kfyty.mvc.annotation.ResponseBody;
+import com.kfyty.mvc.annotation.bind.PathVariable;
+import com.kfyty.mvc.annotation.bind.RequestBody;
+import com.kfyty.mvc.annotation.bind.RequestParam;
+import com.kfyty.mvc.annotation.bind.ResponseBody;
 import com.kfyty.mvc.multipart.MultipartFile;
 import com.kfyty.mvc.request.RequestMethod;
 import com.kfyty.support.autoconfig.annotation.Autowired;

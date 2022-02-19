@@ -52,9 +52,10 @@ import static java.lang.Integer.parseInt;
 @Service
 public class LockService {
     private static final Set<UserDoctor> SUCCEED_SET = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
     private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
             e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
-                    e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("三价");
+                    e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("四价");
 
 //    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST = e -> e.getDeptName().contains("四价");
 
@@ -188,13 +189,13 @@ public class LockService {
                 }
                 boolean lock = this.doTryLock(day, lockPass, user, doctor, doctorDate);
                 if (!lock) {
-                    log.error("就诊人: {}, 尝试锁定 {}, date={}, 失败！", user.getPatientName(), doctor.getMarkDesc(), doctorDate.getTimeValue());
+                    log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue());
                     continue;
                 }
                 succeed++;
                 SUCCEED_SET.add(key);
-                log.info("就诊人: {}, 尝试锁定 {}, date={}, 成功！", user.getPatientName(), doctor.getMarkDesc(), doctorDate.getTimeValue());
-                this.self.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定 {}, date={}, now={}, 成功！", user.getPatientName(), doctor.getMarkDesc(), doctorDate.getTimeValue(), DateUtil.now()));
+                log.info("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 成功！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue());
+                this.self.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, now={}, 成功！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue(), DateUtil.now()));
                 if (result.getList().size() > 20 && succeed > result.getList().size() / 2) {        // 暂时锁定一半的预约，毕竟我的良心大大的
                     return true;
                 }
@@ -217,7 +218,7 @@ public class LockService {
                     response.getResult().getSuccess() != null &&
                     response.getResult().getSuccess();
         } catch (Exception e) {
-            log.error("进行锁定失败: date={}, user={}, msg={}", doctorDate.getTimeValue(), user.getPatientName(), e.getMessage(), e);
+            log.error("进行锁定失败: day={}, timeValue={}, user={}, msg={}", day, doctorDate.getTimeValue(), user.getPatientName(), e.getMessage(), e);
             return false;
         }
     }
@@ -244,6 +245,7 @@ public class LockService {
     public static class MonitorMessage {
         @JSONField(name = "msg_type")
         private String msgType;
+
         private MessageContent content;
 
         public static MonitorMessage of(String message) {

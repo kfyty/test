@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kfyty</groupId>
-    <artifactId>mvc-test-demo</artifactId>
+    <artifactId>jiujia_for_qq</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>jar</packaging>
@@ -18,20 +18,14 @@
     <dependencies>
         <dependency>
             <groupId>com.kfyty</groupId>
-            <artifactId>kfyty-mvc</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kfyty</groupId>
-            <artifactId>kfyty-aop</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kfyty</groupId>
             <artifactId>kfyty-boot</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sumwhy</groupId>
+            <artifactId>xm-sumwhy-api-core</artifactId>
+            <version>0.0.3.2</version>
         </dependency>
 
         <dependency>
@@ -81,7 +75,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>${boot-lib-dir}/</classpathPrefix>
-                            <mainClass>com.kfyty.test.WebApplication</mainClass>
+                            <mainClass>com.kfyty.jiujia.Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

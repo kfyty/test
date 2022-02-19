@@ -52,7 +52,10 @@ import static java.lang.Integer.parseInt;
 @Service
 public class LockService {
     private static final Set<UserDoctor> SUCCEED_SET = Collections.newSetFromMap(new ConcurrentHashMap<>());
-    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST = e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三");
+    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
+            e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
+                    e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("三价");
+
 //    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST = e -> e.getDeptName().contains("四价");
 
     public static String tellerInfo;

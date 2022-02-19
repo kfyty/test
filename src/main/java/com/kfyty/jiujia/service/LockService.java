@@ -131,6 +131,11 @@ public class LockService {
                     log.info("查询部门为空！");
                     break;
                 }
+                if (e.getMessage().contains("stop_system")) {
+                    log.info("系统维护中，十分钟后重试...");
+                    ThreadUtil.sleep(10 * 60 * 1000);
+                    continue;
+                }
                 log.error("处理目标日期部门失败: date={}, msg={}", dateFormat.format(calendar.getTime()), e.getMessage(), e);
             }
         }

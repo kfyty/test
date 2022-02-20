@@ -200,17 +200,17 @@ public class LockService {
                 }
                 boolean lock = this.doTryLock(day, lockPass, user, doctor, doctorDate);
                 if (!lock) {
-                    log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue());
+                    log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue());
                     continue;
                 }
                 String wxSign = this.doPay(day, lockPass, user, doctor, doctorDate);
                 if (wxSign == null) {
-                    log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue());
+                    log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue());
                     continue;
                 }
                 SUCCEED_USRE_ID.add(user.getUserId());
-                log.info("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 成功, 请尽快完成支付, 微信支付签名为: {}", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue(), wxSign);
-                this.self.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, now={}, 成功, 微信支付签名为: {}", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue(), DateUtil.now(), wxSign));
+                log.info("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 成功, 请尽快完成支付, 微信支付签名为: {}", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue(), wxSign);
+                this.self.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, now={}, 成功, 微信支付签名为: {}", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue(), DateUtil.now(), wxSign));
                 return true;
             }
         }

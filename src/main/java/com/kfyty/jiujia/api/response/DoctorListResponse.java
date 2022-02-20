@@ -35,6 +35,10 @@ public class DoctorListResponse extends AbstractResponse<Void> {
         private String BegTime;
         private String EndTime;
 
+        public String getDoctor() {
+            return this.MarkDesc + "/" + this.getDeptName();
+        }
+
         public String getDeptName() {
             return CommonUtil.notEmpty(this.DepName) ? this.DepName : this.DeptName;
         }

@@ -69,8 +69,8 @@ public class LockService {
     public void tryLock() {
         while (true) {
             this.findDept();
-            log.info("本轮尝试锁定结束, 1 秒后重试！");
-            ThreadUtil.sleep(1000);
+            log.info("本轮尝试锁定结束, 3 秒后重试！");
+            ThreadUtil.sleep(3000);
         }
     }
 
@@ -115,6 +115,7 @@ public class LockService {
     }
 
     private void findDept() {
+        int connectTimeOutCnt = 0;
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         while (true) {
@@ -135,14 +136,22 @@ public class LockService {
                 log.info("查询到符合条件的部门: {}", any.get());
                 this.tryLock(any.get());
             } catch (Exception e) {
-                if (e.getMessage() == null || e.getMessage().contains("没有可预约科室")) {
+                if (e.getMessage() != null && e.getMessage().contains("没有可预约科室")) {
                     log.info("查询部门为空！");
                     break;
                 }
-                if (e.getMessage() == null || e.getMessage().contains("stop_system")) {
+                if (e.getMessage() != null && e.getMessage().contains("stop_system")) {
                     log.info("系统维护中，十分钟后重试...");
                     ThreadUtil.sleep(10 * 60 * 1000);
                     continue;
+                }
+                if (e.getMessage() != null && e.getMessage().contains("connect timed out")) {
+                    connectTimeOutCnt++;
+                    if (connectTimeOutCnt > 15) {
+                        log.info("连接超时超过 15 次，等待 3 秒...");
+                        ThreadUtil.sleep(3000);
+                        break;
+                    }
                 }
                 log.error("处理目标日期部门失败: date={}, msg={}", dateFormat.format(calendar.getTime()), e.getMessage(), e);
             }

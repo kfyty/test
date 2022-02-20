@@ -11,12 +11,13 @@ import com.kfyty.jiujia.api.DoctorDateListApi;
 import com.kfyty.jiujia.api.DoctorListApi;
 import com.kfyty.jiujia.api.LockApi;
 import com.kfyty.jiujia.api.UserListApi;
-import com.kfyty.jiujia.api.model.UserDoctor;
+import com.kfyty.jiujia.api.WxPayApi;
 import com.kfyty.jiujia.api.response.DeptListResponse;
 import com.kfyty.jiujia.api.response.DoctorDateListResponse;
 import com.kfyty.jiujia.api.response.DoctorListResponse;
 import com.kfyty.jiujia.api.response.LockResponse;
 import com.kfyty.jiujia.api.response.UserListResponse;
+import com.kfyty.jiujia.api.response.WxPayResponse;
 import com.kfyty.jiujia.encrypt.AesEncrypt;
 import com.kfyty.support.autoconfig.annotation.Async;
 import com.kfyty.support.autoconfig.annotation.Autowired;
@@ -51,7 +52,7 @@ import static java.lang.Integer.parseInt;
 @Slf4j
 @Service
 public class LockService {
-    private static final Set<UserDoctor> SUCCEED_SET = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private static final Set<String> SUCCEED_USRE_ID = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
             e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
@@ -68,8 +69,8 @@ public class LockService {
     public void tryLock() {
         while (true) {
             this.findDept();
-            log.info("本轮尝试锁定结束, 3 秒后重试！");
-            ThreadUtil.sleep(3000);
+            log.info("本轮尝试锁定结束, 1 秒后重试！");
+            ThreadUtil.sleep(1000);
         }
     }
 
@@ -97,9 +98,16 @@ public class LockService {
 
     private List<UserListResponse.UserList> findUser() {
         try {
-            String userPhone = JSONObject.parseObject(AesEncrypt.decrypt(tellerInfo)).getString("user_phone");
+            JSONObject jsonObject = JSONObject.parseObject(AesEncrypt.decrypt(tellerInfo));
+            String userId = jsonObject.getString("user_id");
+            String cardName = jsonObject.getString("card_name");
+            String userPhone = jsonObject.getString("user_phone");
             UserListResponse response = new UserListApi().setHeader(tellerInfo).setUserPhone(userPhone).exchange();
-            return CommonUtil.empty(response.getData()) ? null : response.getData();
+            return CommonUtil.empty(response.getData()) ? null : response.getData().stream().peek(e -> {
+                e.setUserId(userId);
+                e.setCardName(cardName);
+                e.setUserPhone(userPhone);
+            }).collect(Collectors.toList());
         } catch (Exception e) {
             log.error("查询就诊人列表失败: {}", e.getMessage(), e);
             return null;
@@ -127,11 +135,11 @@ public class LockService {
                 log.info("查询到符合条件的部门: {}", any.get());
                 this.tryLock(any.get());
             } catch (Exception e) {
-                if (e.getMessage().contains("没有可预约科室")) {
+                if (e.getMessage() == null || e.getMessage().contains("没有可预约科室")) {
                     log.info("查询部门为空！");
                     break;
                 }
-                if (e.getMessage().contains("stop_system")) {
+                if (e.getMessage() == null || e.getMessage().contains("stop_system")) {
                     log.info("系统维护中，十分钟后重试...");
                     ThreadUtil.sleep(10 * 60 * 1000);
                     continue;
@@ -186,24 +194,24 @@ public class LockService {
                 log.warn("该医生值班号已被预约完毕, date={}", day);
                 return false;
             }
-            int succeed = 0;
             for (DoctorDateListResponse.ResultList doctorDate : result.getList()) {
-                final UserDoctor key = new UserDoctor(user.getPatientId(), doctor.getMarkDesc(), doctorDate.getTimeValue());
-                if (SUCCEED_SET.contains(key)) {
-                    continue;
+                if (SUCCEED_USRE_ID.contains(user.getUserId())) {
+                    return true;
                 }
                 boolean lock = this.doTryLock(day, lockPass, user, doctor, doctorDate);
                 if (!lock) {
                     log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue());
                     continue;
                 }
-                succeed++;
-                SUCCEED_SET.add(key);
-                log.info("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 成功！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue());
-                this.self.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, now={}, 成功！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue(), DateUtil.now()));
-                if (result.getList().size() > 20 && succeed > result.getList().size() / 2) {        // 暂时锁定一半的预约，毕竟我的良心大大的
-                    return true;
+                String wxSign = this.doPay(day, lockPass, user, doctor, doctorDate);
+                if (wxSign == null) {
+                    log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue());
+                    continue;
                 }
+                SUCCEED_USRE_ID.add(user.getUserId());
+                log.info("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 成功, 请尽快完成支付, 微信支付签名为: {}", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue(), wxSign);
+                this.self.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, now={}, 成功, 微信支付签名为: {}", user.getPatientName(), doctor.getMarkDesc(), day, doctorDate.getTimeValue(), DateUtil.now(), wxSign));
+                return true;
             }
         }
     }
@@ -225,6 +233,43 @@ public class LockService {
         } catch (Exception e) {
             log.error("进行锁定失败: day={}, timeValue={}, user={}, msg={}", day, doctorDate.getTimeValue(), user.getPatientName(), e.getMessage(), e);
             return false;
+        }
+    }
+
+    private String doPay(String day, String lockPass, UserListResponse.UserList user, DoctorListResponse.Doctor doctor, DoctorDateListResponse.ResultList doctorDate) {
+        try {
+            WxPayApi.RegisterData registerData = new WxPayApi.RegisterData()
+                    .setPatName(user.getCardName())
+                    .setPatientID(user.getPatientId())
+                    .setDay(day)
+                    .setCardNo(user.getPatientNumber())
+                    .setVisitID(doctor.getVisitID())
+                    .setAsRowid(doctor.getAsRowid())
+                    .setMarkDesc(doctor.getMarkDesc())
+                    .setSessionType(doctor.getSessionType())
+                    .setHBTime(doctor.getHBTime())
+                    .setDepName(doctor.getDeptName())
+                    .setPrice(doctorDate.getPrice())
+                    .setIDCardNo(user.getPatientNumber())
+                    .setPatientName(user.getPatientName())
+                    .setTimeValue(doctorDate.getTimeValue())
+                    .setSerNum(doctorDate.getSerNum())
+                    .setLockPass(lockPass)
+                    .setPhone(user.getUserPhone())
+                    .setRegisterInfo(doctor.getBegTime() + "-" + user.getHospitalName() + "-" + doctor.getDeptName() + "-" + doctor.getMarkDesc());
+            WxPayApi api = new WxPayApi()
+                    .setHeader(tellerInfo)
+                    .setUserId(user.getUserId())
+                    .setUserPhone(user.getUserPhone())
+                    .setPatientID(user.getPatientId())
+                    .setPid(user.getPid())
+                    .setTotalAmount(doctorDate.getPrice())
+                    .setRegisterData(registerData);
+            WxPayResponse response = api.exchange();
+            return response.getData();
+        } catch (Exception e) {
+            log.error("调用微信支付失败: msg={}", e.getMessage(), e);
+            return null;
         }
     }
 

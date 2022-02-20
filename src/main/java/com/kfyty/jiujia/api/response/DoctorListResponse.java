@@ -1,5 +1,6 @@
 package com.kfyty.jiujia.api.response;
 
+import com.kfyty.support.utils.CommonUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,11 +23,20 @@ public class DoctorListResponse extends AbstractResponse<Void> {
     public static class Doctor {
         private String HBTime;
         private String MarkDesc;
+        private String DepName;
+        private String DeptName;
         private String MarkId;
         private String VisitID;
         private String SerContr;
         private String Price;
         private String RegCount;
         private String AsRowid;
+        private String SessionType;
+        private String BegTime;
+        private String EndTime;
+
+        public String getDeptName() {
+            return CommonUtil.notEmpty(this.DepName) ? this.DepName : this.DeptName;
+        }
     }
 }

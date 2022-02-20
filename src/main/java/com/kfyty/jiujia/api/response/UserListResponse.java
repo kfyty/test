@@ -20,11 +20,14 @@ public class UserListResponse extends AbstractResponse<List<UserListResponse.Use
     public static class UserList {
         private String id;
         private String pid;
+        private String userId;
+        private String userPhone;
         private String profession;
         private String hospitalImgurl;
         private String outpatientCode;
         private String address;
         private String cardNo;
+        private String cardName;
         private String patientId;
         private String patientName;
         private String patientNumber;

@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class UserListApi extends AbstractApi<UserListApi, UserListResponse> {
-    @Parameter(value = "user_phone", defaultValue = "15090576101")
+    @Parameter(value = "user_phone")
     private String userPhone;
 
     @Override

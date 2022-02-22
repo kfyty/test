@@ -52,7 +52,7 @@ import static java.lang.Integer.parseInt;
 @Slf4j
 @Service
 public class LockService {
-    private static final Set<String> SUCCEED_USRE_ID = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private static final Set<String> SUCCEED_USER_ID = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
             e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
@@ -102,7 +102,7 @@ public class LockService {
             String userId = jsonObject.getString("user_id");
             String cardName = jsonObject.getString("card_name");
             String userPhone = jsonObject.getString("user_phone");
-            UserListResponse response = new UserListApi().setHeader(tellerInfo).setUserPhone(userPhone).exchange();
+            UserListResponse response = new UserListApi().setHeader(tellerInfo).setUserPhone(userPhone).retried().exchange();
             return CommonUtil.empty(response.getData()) ? null : response.getData().stream().peek(e -> {
                 e.setUserId(userId);
                 e.setCardName(cardName);
@@ -122,7 +122,7 @@ public class LockService {
             try {
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
                 DeptListApi api = new DeptListApi().setHeader(tellerInfo).setDay(dateFormat.format(calendar.getTime()));
-                DeptListResponse response = api.exchange();
+                DeptListResponse response = api.retried().exchange();
                 if (CommonUtil.empty(response.getResult())) {
                     log.info("查询部门为空！");
                     break;
@@ -161,7 +161,7 @@ public class LockService {
     private DoctorListResponse findDoctors(DeptListResponse.Dept dept) {
         try {
             DoctorListApi api = new DoctorListApi().setHeader(tellerInfo).setDay(dept.getDay()).setDeptId(dept.getDeptId());
-            DoctorListResponse response = api.exchange();
+            DoctorListResponse response = api.retried().exchange();
             if (CommonUtil.empty(response.getResult())) {
                 return null;
             }
@@ -183,7 +183,7 @@ public class LockService {
                     .setVisitID(doctor.getVisitID())
                     .setDay(day)
                     .setLockPass(lockPass);
-            DoctorDateListResponse response = api.exchange();
+            DoctorDateListResponse response = api.retried().exchange();
             if (CommonUtil.empty(response.getResult().getList())) {
                 return null;
             }
@@ -204,7 +204,7 @@ public class LockService {
                 return false;
             }
             for (DoctorDateListResponse.ResultList doctorDate : result.getList()) {
-                if (SUCCEED_USRE_ID.contains(user.getUserId())) {
+                if (SUCCEED_USER_ID.contains(user.getUserId())) {
                     return true;
                 }
                 boolean lock = this.doTryLock(day, lockPass, user, doctor, doctorDate);
@@ -217,7 +217,7 @@ public class LockService {
                     log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue());
                     continue;
                 }
-                SUCCEED_USRE_ID.add(user.getUserId());
+                SUCCEED_USER_ID.add(user.getUserId());
                 log.info("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 成功, 请尽快完成支付, 微信支付签名为: {}", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue(), wxSign);
                 this.self.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, now={}, 成功, 微信支付签名为: {}", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue(), DateUtil.now(), wxSign));
                 return true;
@@ -235,7 +235,7 @@ public class LockService {
                     .setLockPass(lockPass)
                     .setSerNum(doctorDate.getSerNum())
                     .setPatientID(user.getPatientId());
-            LockResponse response = api.exchange();
+            LockResponse response = api.retried().exchange();
             return response.getResult() != null &&
                     response.getResult().getSuccess() != null &&
                     response.getResult().getSuccess();
@@ -274,7 +274,7 @@ public class LockService {
                     .setPid(user.getPid())
                     .setTotalAmount(doctorDate.getPrice())
                     .setRegisterData(registerData);
-            WxPayResponse response = api.exchange();
+            WxPayResponse response = api.retried().exchange();
             return response.getData();
         } catch (Exception e) {
             log.error("调用微信支付失败: msg={}", e.getMessage(), e);

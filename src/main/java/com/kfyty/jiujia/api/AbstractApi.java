@@ -8,6 +8,7 @@ import com.kfyty.jiujia.encrypt.AesEncrypt;
 import com.sumwhy.api.core.AbstractSumwhyApi;
 import com.sumwhy.api.core.SumwhyApiResponse;
 import com.sumwhy.api.core.constant.SumwhyApiConstants;
+import com.sumwhy.api.core.decorate.SumwhyApiRetryDecorate;
 import com.sumwhy.api.core.exception.SumwhyApiException;
 import com.sumwhy.api.core.http.HttpRequest;
 import com.sumwhy.api.core.http.HttpResponse;
@@ -59,6 +60,10 @@ public class AbstractApi<T extends AbstractApi<T, R>, R extends SumwhyApiRespons
                 .setHeader(new RequestModel.TellerInfo().setTellerInfo(this.getHeader()));
         this.formData().clear();
         this.addFormData(requestModel);
+    }
+
+    public SumwhyApiRetryDecorate<T, R> retried() {
+        return SumwhyApiRetryDecorate.of(this);
     }
 
     public static class AesEncryptURLConnectionHttpRequestExecutor extends URLConnectionHttpRequestExecutor {

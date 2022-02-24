@@ -69,7 +69,7 @@ public class LockService {
     public void tryLock() {
         while (true) {
             this.findDept();
-            log.info("本轮尝试锁定结束, 3 秒后重试！");
+            log.info("本轮尝试锁定结束, 2 秒后重试！");
             ThreadUtil.sleep(2000);
         }
     }

@@ -38,7 +38,7 @@ public class AbstractApi<T extends AbstractApi<T, R>, R extends SumwhyApiRespons
     private RequestModel requestInfo;
 
     public AbstractApi() {
-        this.cloneConfig().setRequestExecutor(new AesEncryptURLConnectionHttpRequestExecutor());
+        this.setReadTimeout(6000).cloneConfig().setRequestExecutor(new AesEncryptURLConnectionHttpRequestExecutor());
     }
 
     @SuppressWarnings("unchecked")

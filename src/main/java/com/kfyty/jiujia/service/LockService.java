@@ -56,7 +56,7 @@ public class LockService {
 
     private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
             e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
-                    e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("四价");
+                    e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("四价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三");
 
 //    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST = e -> e.getDeptName().contains("四价");
 
@@ -70,7 +70,7 @@ public class LockService {
         while (true) {
             this.findDept();
             log.info("本轮尝试锁定结束, 3 秒后重试！");
-            ThreadUtil.sleep(3000);
+            ThreadUtil.sleep(2000);
         }
     }
 

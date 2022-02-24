@@ -217,9 +217,9 @@ public class LockService {
                     log.error("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 失败！", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue());
                     continue;
                 }
-                SUCCEED_USER_ID.add(user.getUserId());
                 log.info("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, 成功, 请尽快完成支付, 微信支付签名为: {}", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue(), wxSign);
                 this.sendMessage(CommonUtil.format("就诊人: {}, 尝试锁定: {}, day={}, timeValue={}, now={}, 成功, 微信支付签名为: {}", user.getPatientName(), doctor.getDoctor(), day, doctorDate.getTimeValue(), DateUtil.now(), wxSign));
+                SUCCEED_USER_ID.add(user.getUserId());
                 return true;
             }
         }

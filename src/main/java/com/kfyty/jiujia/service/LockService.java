@@ -107,6 +107,12 @@ public class LockService {
                 e.setUserId(userId);
                 e.setCardName(cardName);
                 e.setUserPhone(userPhone);
+                if (CommonUtil.empty(e.getPatientId())) {
+                    e.setPatientId("1839321");
+                }
+                if (CommonUtil.empty(e.getHospitalName())) {
+                    e.setHospitalName("洛阳市妇幼保健院");
+                }
             }).collect(Collectors.toList());
         } catch (Exception e) {
             log.error("查询就诊人列表失败: {}", e.getMessage(), e);
@@ -136,6 +142,11 @@ public class LockService {
                 log.info("查询到符合条件的部门: {}", any.get());
                 this.tryLock(any.get());
             } catch (Exception e) {
+                if (e.getMessage() != null && e.getMessage().contains("blacklist")) {
+                    log.error("该用户已被拉黑！");
+                    this.sendMessage("该用户已被拉黑！");
+                    break;
+                }
                 if (e.getMessage() != null && e.getMessage().contains("没有可预约科室")) {
                     log.info("查询部门为空！");
                     break;

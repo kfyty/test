@@ -3,9 +3,7 @@ package com.kfyty.jiujia.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.http.HttpRequest;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kfyty.jiujia.api.DeptListApi;
 import com.kfyty.jiujia.api.DoctorDateListApi;
 import com.kfyty.jiujia.api.DoctorListApi;
@@ -23,6 +21,7 @@ import com.kfyty.support.autoconfig.annotation.Async;
 import com.kfyty.support.autoconfig.annotation.Autowired;
 import com.kfyty.support.autoconfig.annotation.Service;
 import com.kfyty.support.utils.CommonUtil;
+import com.kfyty.support.utils.JsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,7 +58,7 @@ public class LockService {
             e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
                     e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("四价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三");
 
-//    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST = e -> e.getDeptName().contains("四价");
+//    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST = e -> e.getDeptName().contains("保健");
 
     public static String tellerInfo;
 
@@ -98,21 +98,15 @@ public class LockService {
 
     private List<UserListResponse.UserList> findUser() {
         try {
-            JSONObject jsonObject = JSONObject.parseObject(AesEncrypt.decrypt(tellerInfo));
-            String userId = jsonObject.getString("user_id");
-            String cardName = jsonObject.getString("card_name");
-            String userPhone = jsonObject.getString("user_phone");
+            Map<String, Object> jsonObject = JsonUtil.toMap(AesEncrypt.decrypt(tellerInfo));
+            String userId = jsonObject.get("user_id").toString();
+            String cardName = jsonObject.get("card_name").toString();
+            String userPhone = jsonObject.get("user_phone").toString();
             UserListResponse response = new UserListApi().setHeader(tellerInfo).setUserPhone(userPhone).retried().exchange();
             return CommonUtil.empty(response.getData()) ? null : response.getData().stream().peek(e -> {
                 e.setUserId(userId);
                 e.setCardName(cardName);
                 e.setUserPhone(userPhone);
-                if (CommonUtil.empty(e.getPatientId())) {
-                    e.setPatientId("1839321");
-                }
-                if (CommonUtil.empty(e.getHospitalName())) {
-                    e.setHospitalName("洛阳市妇幼保健院");
-                }
             }).collect(Collectors.toList());
         } catch (Exception e) {
             log.error("查询就诊人列表失败: {}", e.getMessage(), e);
@@ -300,7 +294,7 @@ public class LockService {
             String response = HttpRequest
                     .post("https://open.feishu.cn/open-apis/bot/v2/hook/b2e21f4a-1e38-41c0-ad32-6885490434d9")
                     .header("Content-Type", "application/json; charset=utf-8")
-                    .body(JSON.toJSONString(message), "utf-8")
+                    .body(JsonUtil.toJson(message), "utf-8")
                     .execute()
                     .body();
             log.info("通知结果: {}", response);
@@ -313,7 +307,7 @@ public class LockService {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MonitorMessage {
-        @JSONField(name = "msg_type")
+        @JsonProperty(value = "msg_type")
         private String msgType;
 
         private MessageContent content;

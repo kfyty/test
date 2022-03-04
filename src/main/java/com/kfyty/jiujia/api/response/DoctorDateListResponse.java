@@ -1,5 +1,6 @@
 package com.kfyty.jiujia.api.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,17 +20,31 @@ public class DoctorDateListResponse extends AbstractResponse<Void> {
 
     @Data
     public static class DoctorDateResult {
+        @JsonProperty("success")
         private Boolean success;
+
+        @JsonProperty("ErrorMsg")
         private String errorMsg;
+
+        @JsonProperty("AsRowid")
         private String asRowid;
+
+        @JsonProperty("List")
         private List<ResultList> List;
     }
 
     @Data
     public static class ResultList {
+        @JsonProperty("SerNum")
         private String SerNum;
+
+        @JsonProperty("Price")
         private String Price;
+
+        @JsonProperty("RegCount")
         private String RegCount;
+
+        @JsonProperty("TimeValue")
         private String TimeValue;
     }
 }

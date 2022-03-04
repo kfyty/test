@@ -1,11 +1,16 @@
 package com.kfyty.jiujia.api;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kfyty.jiujia.api.response.WxPayResponse;
-import com.sumwhy.api.core.annotation.Parameter;
+import com.kfyty.sdk.api.core.annotation.Parameter;
+import com.kfyty.support.utils.JsonUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.Map;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * 描述:
@@ -17,7 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class WxPayApi extends AbstractApi<WxPayApi, WxPayResponse> {
+public class WxPayApi extends AbstractJiujiaApi<WxPayApi, WxPayResponse> {
     @Parameter(value = "payType", defaultValue = "3")
     private String payType;
 
@@ -64,79 +69,86 @@ public class WxPayApi extends AbstractApi<WxPayApi, WxPayResponse> {
         return "POST";
     }
 
+    @Override
+    public WxPayResponse exchange() {
+        String body = new String(this.execute(), UTF_8);
+        Map<String, Object> map = JsonUtil.toMap(body);
+        return new WxPayResponse(map.get("code").toString(), map.get("msg").toString(), JsonUtil.toJson(map.get("data")));
+    }
+
     @Data
     @Accessors(chain = true)
     public static class RegisterData {
-        @JSONField(name = "PatName")
+        @JsonProperty(value = "PatName")
         private String PatName;
 
-        @JSONField(name = "PatientID")
+        @JsonProperty(value = "PatientID")
         private String PatientID;
 
-        @JSONField(name = "Day")
+        @JsonProperty(value = "Day")
         private String Day;
 
-        @JSONField(name = "CardNo")
+        @JsonProperty(value = "CardNo")
         private String CardNo;
 
-        @JSONField(name = "VisitID")
+        @JsonProperty(value = "VisitID")
         private String VisitID;
 
-        @JSONField(name = "AsRowid")
+        @JsonProperty(value = "AsRowid")
         private String AsRowid;
 
-        @JSONField(name = "MarkDesc")
+        @JsonProperty(value = "MarkDesc")
         private String MarkDesc;
 
-        @JSONField(name = "SessionType")
+        @JsonProperty(value = "SessionType")
         private String SessionType;
 
-        @JSONField(name = "HBTime")
+        @JsonProperty(value = "HBTime")
         private String HBTime;
 
-        @JSONField(name = "DepName")
+        @JsonProperty(value = "DepName")
         private String DepName;
 
-        @JSONField(name = "Price")
+        @JsonProperty(value = "Price")
         private String Price;
 
-        @JSONField(name = "IDCardNo")
+        @JsonProperty(value = "IDCardNo")
         private String IDCardNo;
 
-        @JSONField(name = "PatientName")
+        @JsonProperty(value = "PatientName")
         private String PatientName;
 
-        @JSONField(name = "TimeValue")
+        @JsonProperty(value = "TimeValue")
         private String TimeValue;
 
-        @JSONField(name = "SerNum")
+        @JsonProperty(value = "SerNum")
         private String SerNum;
 
-        @JSONField(name = "LockPass")
+        @JsonProperty(value = "LockPass")
         private String LockPass;
 
-        @JSONField(name = "phone")
+        @JsonProperty(value = "phone")
         private String phone;
 
-        @JSONField(name = "registerInfo")
+        @JsonProperty(value = "registerInfo")
         private String registerInfo;
 
-        @JSONField(name = "payType")
+        @JsonProperty(value = "payType")
         private String payType = "3";
 
-        @JSONField(name = "RegType")
+        @JsonProperty(value = "RegType")
         private String RegType = "3";
 
-        @JSONField(name = "CardTypeID")
+        @JsonProperty(value = "CardTypeID")
         private String CardTypeID = "2";
 
-        @JSONField(name = "smsCodeType")
+        @JsonProperty(value = "smsCodeType")
         private String smsCodeType = "0";
 
-        @JSONField(name = "smsType")
+        @JsonProperty(value = "smsType")
         private String smsType = "003";
 
-        @JSONField(name = "xinYeMian")
+        @JsonProperty(value = "xinYeMian")
         private String xinYeMian = "true";
     }
 }

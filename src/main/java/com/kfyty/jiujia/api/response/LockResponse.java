@@ -1,5 +1,6 @@
 package com.kfyty.jiujia.api.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,14 +18,31 @@ public class LockResponse extends AbstractResponse<LockResponse.LockResult> {
 
     @Data
     public static class LockResult {
+        @JsonProperty("code")
         private String code;
+
+        @JsonProperty("SerNumlock")
         private String SerNumlock;
+
+        @JsonProperty("returnCode")
         private String returnCode;
+
+        @JsonProperty("TransCode")
         private String TransCode;
+
+        @JsonProperty("success")
         private Boolean success;
+
+        @JsonProperty("ErrorMsg")
         private String ErrorMsg;
+
+        @JsonProperty("resultCode")
         private String resultCode;
+
+        @JsonProperty("ResultCode")
         private String ResultCode;
+
+        @JsonProperty("resultMsg")
         private String resultMsg;
     }
 }

@@ -1,6 +1,6 @@
 package com.kfyty.jiujia.api.response;
 
-import com.sumwhy.api.core.support.GenericApiResponse;
+import com.kfyty.sdk.api.core.support.GenericApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

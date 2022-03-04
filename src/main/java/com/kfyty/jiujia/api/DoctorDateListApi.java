@@ -1,7 +1,7 @@
 package com.kfyty.jiujia.api;
 
 import com.kfyty.jiujia.api.response.DoctorDateListResponse;
-import com.sumwhy.api.core.annotation.Parameter;
+import com.kfyty.sdk.api.core.annotation.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class DoctorDateListApi extends AbstractApi<DoctorDateListApi, DoctorDateListResponse> {
+public class DoctorDateListApi extends AbstractJiujiaApi<DoctorDateListApi, DoctorDateListResponse> {
     @Parameter(value = "RegType", defaultValue = "2")
     private String regType;
 

@@ -1,7 +1,7 @@
 package com.kfyty.jiujia.api;
 
 import com.kfyty.jiujia.api.response.UserListResponse;
-import com.sumwhy.api.core.annotation.Parameter;
+import com.kfyty.sdk.api.core.annotation.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class UserListApi extends AbstractApi<UserListApi, UserListResponse> {
+public class UserListApi extends AbstractJiujiaApi<UserListApi, UserListResponse> {
     @Parameter(value = "user_phone")
     private String userPhone;
 

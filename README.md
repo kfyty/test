@@ -1,2 +1,3 @@
-# test
-测试项目，用于测试自己编写的 kfyty-boot、kfyty-mvc 框架
+# jiujia for qq
+为女友写的，仅能用于学习，禁止其他用途
+

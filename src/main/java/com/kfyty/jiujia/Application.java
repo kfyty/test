@@ -7,8 +7,6 @@ import com.kfyty.support.autoconfig.CommandLineRunner;
 import com.kfyty.support.autoconfig.annotation.Autowired;
 import com.kfyty.support.autoconfig.annotation.BootApplication;
 
-import java.util.Objects;
-
 /**
  * 描述:
  *
@@ -27,19 +25,6 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LockService.tellerInfo = resolveTellInfo(args);
         this.lockService.tryLock();
-    }
-
-    private static String resolveTellInfo(String[] args) {
-        for (int i = 0; i < args.length; i++) {
-            if (Objects.equals(args[i], "--tellerInfo")) {
-                if (i == args.length - 1) {
-                    throw new RuntimeException("请设置 --tellerInfo 参数 !");
-                }
-                return args[i + 1];
-            }
-        }
-        throw new RuntimeException("请设置 --tellerInfo 参数 !");
     }
 }

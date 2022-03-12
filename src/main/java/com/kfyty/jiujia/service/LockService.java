@@ -20,6 +20,7 @@ import com.kfyty.jiujia.encrypt.AesEncrypt;
 import com.kfyty.support.autoconfig.annotation.Async;
 import com.kfyty.support.autoconfig.annotation.Autowired;
 import com.kfyty.support.autoconfig.annotation.Service;
+import com.kfyty.support.autoconfig.annotation.Value;
 import com.kfyty.support.utils.CommonUtil;
 import com.kfyty.support.utils.JsonUtil;
 import lombok.AllArgsConstructor;
@@ -54,12 +55,25 @@ import static java.lang.Integer.parseInt;
 public class LockService {
     private static final Set<String> SUCCEED_USER_ID = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
-            e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
-                    e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("四价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三");
+//    /**
+//     * 首剂九价
+//     */
+//    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
+//            e -> e.getDeptName().contains("九价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三") ||
+//                    e.getDeptName().toLowerCase().contains("hpv") && !e.getDeptName().contains("二价") && !e.getDeptName().contains("四价") && !e.getDeptName().contains("二") && !e.getDeptName().contains("三");
 
+    /**
+     * 二三剂九价
+     */
+    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST =
+            e -> e.getDeptName().contains("九价") && e.getDeptName().contains("二");
+
+//    /**
+//     * 测试
+//     */
 //    private static final Predicate<DeptListResponse.Dept> JIUJIA_TEST = e -> e.getDeptName().contains("保健");
 
+    @Value("${tellerInfo}")
     public static String tellerInfo;
 
     @Autowired

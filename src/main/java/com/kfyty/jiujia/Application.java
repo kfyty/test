@@ -1,7 +1,7 @@
 package com.kfyty.jiujia;
 
 import com.kfyty.boot.K;
-import com.kfyty.boot.configuration.ValidationAutoConfiguration;
+import com.kfyty.boot.autoconfig.ValidationAutoConfiguration;
 import com.kfyty.jiujia.service.LockService;
 import com.kfyty.support.autoconfig.CommandLineRunner;
 import com.kfyty.support.autoconfig.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.kfyty.test.service;
 
-import com.kfyty.test.dto.UserDto;
+import com.kfyty.test.dto.UserDTO;
 import jakarta.validation.Valid;
 
 /**
@@ -11,5 +11,5 @@ import jakarta.validation.Valid;
  * @email kfyty725@hotmail.com
  */
 public interface TestService {
-    UserDto test(@Valid UserDto userDto);
+    UserDTO test(@Valid UserDTO userDto);
 }

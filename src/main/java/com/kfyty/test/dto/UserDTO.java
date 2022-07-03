@@ -1,5 +1,6 @@
 package com.kfyty.test.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -10,6 +11,8 @@ import lombok.Data;
  * @email kfyty725@hotmail.com
  */
 @Data
-public class DeptDto {
+public class UserDTO {
+    @NotNull
     private Integer id;
+    private Integer deptId;
 }

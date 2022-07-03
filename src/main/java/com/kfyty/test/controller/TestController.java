@@ -1,5 +1,6 @@
 package com.kfyty.test.controller;
 
+import com.kfyty.excel.processor.TemplateExcelParallelExport;
 import com.kfyty.mvc.annotation.Controller;
 import com.kfyty.mvc.annotation.GetMapping;
 import com.kfyty.mvc.annotation.PostMapping;
@@ -12,13 +13,17 @@ import com.kfyty.mvc.annotation.bind.ResponseBody;
 import com.kfyty.mvc.multipart.MultipartFile;
 import com.kfyty.mvc.request.RequestMethod;
 import com.kfyty.support.autoconfig.annotation.Autowired;
-import com.kfyty.test.dto.DeptDto;
-import com.kfyty.test.dto.UserDto;
+import com.kfyty.test.dto.DeptDTO;
+import com.kfyty.test.dto.ExportDTO;
+import com.kfyty.test.dto.UserDTO;
 import com.kfyty.test.exception.BusinessException;
 import com.kfyty.test.service.TestService;
 import jakarta.validation.constraints.Size;
+import lombok.SneakyThrows;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -72,19 +77,19 @@ public class TestController {
 
     @ResponseBody
     @PutMapping("user")
-    public UserDto userDto(@RequestParam UserDto userDto) {
+    public UserDTO userDto(@RequestParam UserDTO userDto) {
         return this.service.test(userDto);
     }
 
     @ResponseBody
     @PutMapping("user-body")
-    public UserDto userDtoBody(@RequestBody UserDto userDto) {
+    public UserDTO userDtoBody(@RequestBody UserDTO userDto) {
         return userDto;
     }
 
     @ResponseBody
     @PostMapping("user-dept")
-    public UserDto userDto(UserDto userDto, @RequestParam DeptDto deptDto) {
+    public UserDTO userDto(UserDTO userDto, @RequestParam DeptDTO deptDto) {
         userDto.setDeptId(deptDto.getId());
         return userDto;
     }
@@ -102,5 +107,18 @@ public class TestController {
     @GetMapping("rest-exception")
     public void restException() throws Exception {
         throw new Exception("rest-exception");
+    }
+
+    @SneakyThrows
+    @GetMapping("download")
+    public void download(HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("test.xlsx", "UTF-8"));
+        TemplateExcelParallelExport<ExportDTO> export = new TemplateExcelParallelExport<>(response.getOutputStream(), ExportDTO.class);
+        export.start();
+        export.write(new ExportDTO(1L, "test"));
+        export.end();
+        export.close();
     }
 }

@@ -1,7 +1,7 @@
 package com.kfyty.test.service.impl;
 
 import com.kfyty.support.autoconfig.annotation.Service;
-import com.kfyty.test.dto.UserDto;
+import com.kfyty.test.dto.UserDTO;
 import com.kfyty.test.service.TestService;
 
 /**
@@ -14,7 +14,7 @@ import com.kfyty.test.service.TestService;
 @Service
 public class TestServiceImpl implements TestService {
 
-    public UserDto test(UserDto userDto) {
+    public UserDTO test(UserDTO userDto) {
         return userDto;
     }
 }

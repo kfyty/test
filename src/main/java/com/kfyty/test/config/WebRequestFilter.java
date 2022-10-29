@@ -1,6 +1,6 @@
 package com.kfyty.test.config;
 
-import com.kfyty.support.autoconfig.annotation.Component;
+import com.kfyty.core.autoconfig.annotation.Component;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.Filter;

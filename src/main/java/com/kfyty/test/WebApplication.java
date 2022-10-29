@@ -2,7 +2,7 @@ package com.kfyty.test;
 
 import com.kfyty.boot.K;
 import com.kfyty.mvc.annotation.EnableWebMvc;
-import com.kfyty.support.autoconfig.annotation.BootApplication;
+import com.kfyty.core.autoconfig.annotation.BootApplication;
 
 /**
  * 描述:

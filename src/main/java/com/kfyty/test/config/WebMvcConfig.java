@@ -1,9 +1,9 @@
 package com.kfyty.test.config;
 
 import com.kfyty.mvc.servlet.DispatcherServlet;
-import com.kfyty.support.autoconfig.BeanCustomizer;
-import com.kfyty.support.autoconfig.annotation.Bean;
-import com.kfyty.support.autoconfig.annotation.Configuration;
+import com.kfyty.core.autoconfig.BeanCustomizer;
+import com.kfyty.core.autoconfig.annotation.Bean;
+import com.kfyty.core.autoconfig.annotation.Configuration;
 
 /**
  * 描述:

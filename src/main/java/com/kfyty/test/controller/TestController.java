@@ -12,7 +12,7 @@ import com.kfyty.mvc.annotation.bind.RequestParam;
 import com.kfyty.mvc.annotation.bind.ResponseBody;
 import com.kfyty.mvc.multipart.MultipartFile;
 import com.kfyty.mvc.request.RequestMethod;
-import com.kfyty.support.autoconfig.annotation.Autowired;
+import com.kfyty.core.autoconfig.annotation.Autowired;
 import com.kfyty.test.dto.DeptDTO;
 import com.kfyty.test.dto.ExportDTO;
 import com.kfyty.test.dto.UserDTO;
@@ -115,7 +115,7 @@ public class TestController {
         response.setCharacterEncoding("UTF-8");
         response.setHeader("content-Type", "application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("test.xlsx", "UTF-8"));
-        TemplateExcelParallelExport<ExportDTO> export = new TemplateExcelParallelExport<>(response.getOutputStream(), ExportDTO.class);
+        TemplateExcelParallelExport export = new TemplateExcelParallelExport(response.getOutputStream(), ExportDTO.class);
         export.start();
         export.write(new ExportDTO(1L, "test"));
         export.end();

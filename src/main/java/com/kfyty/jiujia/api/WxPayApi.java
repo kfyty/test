@@ -3,7 +3,7 @@ package com.kfyty.jiujia.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kfyty.jiujia.api.response.WxPayResponse;
 import com.kfyty.sdk.api.core.annotation.Parameter;
-import com.kfyty.support.utils.JsonUtil;
+import com.kfyty.core.utils.JsonUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

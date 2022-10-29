@@ -9,7 +9,7 @@ import com.kfyty.sdk.api.core.constant.ApiConstants;
 import com.kfyty.sdk.api.core.decorate.ApiRetryDecorate;
 import com.kfyty.sdk.api.core.exception.ApiException;
 import com.kfyty.sdk.api.core.http.executor.URLConnectionHttpRequestExecutor;
-import com.kfyty.support.utils.JsonUtil;
+import com.kfyty.core.utils.JsonUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

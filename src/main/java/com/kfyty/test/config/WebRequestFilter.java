@@ -1,6 +1,5 @@
 package com.kfyty.test.config;
 
-import com.kfyty.core.autoconfig.annotation.Component;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.Filter;
@@ -19,7 +18,6 @@ import java.io.IOException;
  * @email kfyty725@hotmail.com
  */
 @Slf4j
-@Component
 @WebFilter
 public class WebRequestFilter implements Filter {
 

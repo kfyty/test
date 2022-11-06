@@ -1,6 +1,5 @@
 package com.kfyty.test.config;
 
-import com.kfyty.core.autoconfig.annotation.Component;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +19,6 @@ import java.io.IOException;
  * @email kfyty725@hotmail.com
  */
 @Slf4j
-@Component
 @ServerEndpoint("/test/websocket")
 public class WebSocketConfig {
 

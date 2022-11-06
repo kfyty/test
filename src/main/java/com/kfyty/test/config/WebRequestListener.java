@@ -1,6 +1,5 @@
 package com.kfyty.test.config;
 
-import com.kfyty.core.autoconfig.annotation.Component;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletRequestEvent;
@@ -15,7 +14,6 @@ import javax.servlet.annotation.WebListener;
  * @email kfyty725@hotmail.com
  */
 @Slf4j
-@Component
 @WebListener
 public class WebRequestListener implements ServletRequestListener {
 

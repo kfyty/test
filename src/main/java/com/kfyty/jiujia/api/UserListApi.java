@@ -21,7 +21,7 @@ public class UserListApi extends AbstractJiujiaApi<UserListApi, UserListResponse
     private String userPhone;
 
     @Override
-    public String requestURL() {
+    public String requestPath() {
         return "http://llyl.mbcloud.com/wx/services/pation/pation/getPactionListByHis.do";
     }
 

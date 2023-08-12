@@ -30,7 +30,7 @@ public class DoctorListApi extends AbstractJiujiaApi<DoctorListApi, DoctorListRe
     private String deptId;
 
     @Override
-    public String requestURL() {
+    public String requestPath() {
         return "http://llyl.mbcloud.com/wx/services/service/theDayRegistered/queryDoctor.do";
     }
 

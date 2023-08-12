@@ -1,15 +1,15 @@
 package com.kfyty.jiujia.api;
 
 import cn.hutool.http.HttpUtil;
+import com.kfyty.core.utils.JsonUtil;
 import com.kfyty.jiujia.api.model.RequestModel;
 import com.kfyty.jiujia.encrypt.AesEncrypt;
-import com.kfyty.sdk.api.core.AbstractApi;
 import com.kfyty.sdk.api.core.ApiResponse;
 import com.kfyty.sdk.api.core.constant.ApiConstants;
 import com.kfyty.sdk.api.core.decorate.ApiRetryDecorate;
 import com.kfyty.sdk.api.core.exception.ApiException;
+import com.kfyty.sdk.api.core.http.AbstractApi;
 import com.kfyty.sdk.api.core.http.executor.URLConnectionHttpRequestExecutor;
-import com.kfyty.core.utils.JsonUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

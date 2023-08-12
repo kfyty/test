@@ -42,7 +42,7 @@ public class LockApi extends AbstractJiujiaApi<LockApi, LockResponse> {
     private String patientID;
 
     @Override
-    public String requestURL() {
+    public String requestPath() {
         return "http://llyl.mbcloud.com/wx/services/service/theDayRegistered/Thelock.do";
     }
 

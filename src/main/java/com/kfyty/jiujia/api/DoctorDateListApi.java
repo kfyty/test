@@ -33,7 +33,7 @@ public class DoctorDateListApi extends AbstractJiujiaApi<DoctorDateListApi, Doct
     private String lockPass;
 
     @Override
-    public String requestURL() {
+    public String requestPath() {
         return "http://llyl.mbcloud.com/wx/services/service/theDayRegistered/queryDoctorDate.do";
     }
 

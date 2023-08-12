@@ -30,7 +30,7 @@ public class DeptListApi extends AbstractJiujiaApi<DeptListApi, DeptListResponse
     private String day;
 
     @Override
-    public String requestURL() {
+    public String requestPath() {
         return "http://llyl.mbcloud.com/wx/services/service/theDayRegistered/queryDepartment.do";
     }
 

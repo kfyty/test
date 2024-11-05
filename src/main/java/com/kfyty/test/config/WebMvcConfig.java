@@ -1,7 +1,7 @@
 package com.kfyty.test.config;
 
-import com.kfyty.core.autoconfig.annotation.Configuration;
-import com.kfyty.mvc.autoconfig.annotation.EnableWebMvc;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Configuration;
+import com.kfyty.loveqq.framework.web.core.autoconfig.annotation.EnableWebMvc;
 
 /**
  * 描述:

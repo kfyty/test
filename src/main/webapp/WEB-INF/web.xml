@@ -7,7 +7,7 @@
     </welcome-file-list>
 
     <listener>
-        <listener-class>com.kfyty.boot.web.WebMvcAutoConfigListener</listener-class>
+        <listener-class>com.kfyty.loveqq.framework.web.mvc.servlet.listener.WebMvcAutoConfigListener</listener-class>
     </listener>
 
     <context-param>
@@ -16,8 +16,8 @@
     </context-param>
 
     <servlet>
-        <servlet-name>kfytyMvc</servlet-name>
-        <servlet-class>com.kfyty.mvc.servlet.DispatcherServlet</servlet-class>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>com.kfyty.loveqq.framework.web.mvc.servlet.DispatcherServlet</servlet-class>
 
         <init-param>
             <param-name>prefix</param-name>
@@ -31,7 +31,7 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>kfytyMvc</servlet-name>
+        <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 </web-app>

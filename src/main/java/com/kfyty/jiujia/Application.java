@@ -1,10 +1,10 @@
 package com.kfyty.jiujia;
 
-import com.kfyty.boot.K;
 import com.kfyty.jiujia.service.LockService;
-import com.kfyty.core.autoconfig.CommandLineRunner;
-import com.kfyty.core.autoconfig.annotation.Autowired;
-import com.kfyty.core.autoconfig.annotation.BootApplication;
+import com.kfyty.loveqq.framework.boot.K;
+import com.kfyty.loveqq.framework.core.autoconfig.CommandLineRunner;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Autowired;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.BootApplication;
 
 /**
  * 描述:

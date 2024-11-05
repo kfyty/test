@@ -2,8 +2,8 @@ package com.kfyty.jiujia.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kfyty.jiujia.api.response.WxPayResponse;
-import com.kfyty.sdk.api.core.annotation.Parameter;
-import com.kfyty.core.utils.JsonUtil;
+import com.kfyty.loveqq.framework.core.utils.JsonUtil;
+import com.kfyty.loveqq.framework.sdk.api.core.annotation.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -73,7 +73,7 @@ public class WxPayApi extends AbstractJiujiaApi<WxPayApi, WxPayResponse> {
     public WxPayResponse exchange() {
         String body = new String(this.execute(), UTF_8);
         Map<String, Object> map = JsonUtil.toMap(body);
-        return new WxPayResponse(map.get("code").toString(), map.get("msg").toString(), JsonUtil.toJson(map.get("data")));
+        return new WxPayResponse(map.get("code").toString(), map.get("msg").toString(), JsonUtil.toJSONString(map.get("data")));
     }
 
     @Data

@@ -1,7 +1,7 @@
 package com.kfyty.jiujia.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kfyty.core.utils.CommonUtil;
+import com.kfyty.loveqq.framework.core.utils.CommonUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

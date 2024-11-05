@@ -17,12 +17,12 @@ import com.kfyty.jiujia.api.response.LockResponse;
 import com.kfyty.jiujia.api.response.UserListResponse;
 import com.kfyty.jiujia.api.response.WxPayResponse;
 import com.kfyty.jiujia.encrypt.AesEncrypt;
-import com.kfyty.core.autoconfig.annotation.Async;
-import com.kfyty.core.autoconfig.annotation.Autowired;
-import com.kfyty.core.autoconfig.annotation.Service;
-import com.kfyty.core.autoconfig.annotation.Value;
-import com.kfyty.core.utils.CommonUtil;
-import com.kfyty.core.utils.JsonUtil;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Async;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Autowired;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Service;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Value;
+import com.kfyty.loveqq.framework.core.utils.CommonUtil;
+import com.kfyty.loveqq.framework.core.utils.JsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -308,7 +308,7 @@ public class LockService {
             String response = HttpRequest
                     .post("https://open.feishu.cn/open-apis/bot/v2/hook/b2e21f4a-1e38-41c0-ad32-6885490434d9")
                     .header("Content-Type", "application/json; charset=utf-8")
-                    .body(JsonUtil.toJson(message), "utf-8")
+                    .body(JsonUtil.toJSONString(message), "utf-8")
                     .execute()
                     .body();
             log.info("通知结果: {}", response);

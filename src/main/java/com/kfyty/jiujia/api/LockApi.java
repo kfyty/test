@@ -1,7 +1,7 @@
 package com.kfyty.jiujia.api;
 
 import com.kfyty.jiujia.api.response.LockResponse;
-import com.kfyty.sdk.api.core.annotation.Parameter;
+import com.kfyty.loveqq.framework.sdk.api.core.annotation.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

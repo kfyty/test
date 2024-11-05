@@ -1,7 +1,7 @@
 package com.kfyty.jiujia.encrypt;
 
 import cn.hutool.core.io.IoUtil;
-import com.kfyty.core.utils.CommonUtil;
+import com.kfyty.loveqq.framework.core.utils.CommonUtil;
 import lombok.SneakyThrows;
 
 import javax.script.Invocable;

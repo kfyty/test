@@ -1,9 +1,9 @@
 package com.kfyty.test.config;
 
-import com.kfyty.mvc.servlet.DispatcherServlet;
-import com.kfyty.core.autoconfig.BeanCustomizer;
-import com.kfyty.core.autoconfig.annotation.Bean;
-import com.kfyty.core.autoconfig.annotation.Configuration;
+import com.kfyty.loveqq.framework.core.autoconfig.BeanCustomizer;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Bean;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Configuration;
+import com.kfyty.loveqq.framework.web.mvc.servlet.DispatcherServlet;
 
 /**
  * 描述:

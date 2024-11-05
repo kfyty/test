@@ -1,7 +1,7 @@
 package com.kfyty.test.config;
 
-import com.kfyty.mvc.annotation.ExceptionHandler;
-import com.kfyty.mvc.annotation.RestControllerAdvice;
+import com.kfyty.loveqq.framework.web.core.annotation.ControllerAdvice;
+import com.kfyty.loveqq.framework.web.core.annotation.ExceptionHandler;
 import jakarta.validation.ConstraintViolationException;
 
 /**
@@ -11,7 +11,7 @@ import jakarta.validation.ConstraintViolationException;
  * @date 2021/6/18 11:52
  * @email kfyty725@hotmail.com
  */
-@RestControllerAdvice
+@ControllerAdvice
 public class RestGlobalExceptionHandler {
 
     @ExceptionHandler

@@ -1,11 +1,10 @@
 package com.kfyty.test.config;
 
-import com.kfyty.mvc.servlet.HandlerInterceptor;
-import com.kfyty.core.autoconfig.annotation.Component;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Component;
+import com.kfyty.loveqq.framework.web.core.interceptor.HandlerInterceptor;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 描述:

@@ -1,10 +1,9 @@
 package com.kfyty.test.config;
 
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import jakarta.servlet.annotation.WebListener;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
-import javax.servlet.annotation.WebListener;
 
 /**
  * 描述:

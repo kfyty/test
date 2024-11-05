@@ -1,6 +1,6 @@
 package com.kfyty.test.service.impl;
 
-import com.kfyty.core.autoconfig.annotation.Service;
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Service;
 import com.kfyty.test.dto.UserDTO;
 import com.kfyty.test.service.TestService;
 

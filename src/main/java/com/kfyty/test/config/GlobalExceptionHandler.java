@@ -1,7 +1,7 @@
 package com.kfyty.test.config;
 
-import com.kfyty.mvc.annotation.ControllerAdvice;
-import com.kfyty.mvc.annotation.ExceptionHandler;
+import com.kfyty.loveqq.framework.web.core.annotation.ControllerAdvice;
+import com.kfyty.loveqq.framework.web.core.annotation.ExceptionHandler;
 import com.kfyty.test.exception.BusinessException;
 
 /**

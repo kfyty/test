@@ -31,5 +31,11 @@
             <artifactId>loveqq-boot-starter-logback</artifactId>
             <version>${loveqq.framework.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

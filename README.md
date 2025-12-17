@@ -1,2 +1,2 @@
 # test
-测试项目，用于测试自己编写的 kfyty-boot、kfyty-mvc 框架
+测试项目，用于测试自己编写的 loveqq-boot、loveqq-mvc 框架

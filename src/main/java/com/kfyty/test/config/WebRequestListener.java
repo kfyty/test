@@ -1,8 +1,8 @@
 package com.kfyty.test.config;
 
+import com.kfyty.loveqq.framework.core.autoconfig.annotation.Component;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import jakarta.servlet.annotation.WebListener;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * @email kfyty725@hotmail.com
  */
 @Slf4j
-@WebListener
+@Component
 public class WebRequestListener implements ServletRequestListener {
 
     public void requestInitialized(ServletRequestEvent sre) {
